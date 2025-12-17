@@ -1,1 +1,1 @@
-## Simplekv is a simple key-value database. ##
+## SimpleKV is a simple key-value database. ##
