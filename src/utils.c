@@ -14,6 +14,7 @@
 #include <regex.h>
 #include "utils.h"
 #include "server.h"
+#include "mm.h"
 
 /* Left trim. 
  * Notice: not use the s directly, 
@@ -75,7 +76,7 @@ char *SubStr(char *str, uint32_t start, uint32_t end) {
     ssize_t str_size = strlen(str);
     if (start >= str_size || end >= str_size)
         return NULL;
-    char *substr = malloc(end - start + 1);
+    char *substr = MemAlloc(end - start + 1);
     uint index = 0;
     for (uint32_t i = 0; i <str_size; i++) {
         if (start <= i && i <= end) {
@@ -89,16 +90,13 @@ char *SubStr(char *str, uint32_t start, uint32_t end) {
 
 /* replace onece */
 char *ReplaceOnce(char *str, const char *old_str, const char *new_str) {
-    if (!str || !old_str)
-        return NULL;
+    if (!str || !old_str) return NULL;
     ssize_t str_size = strlen(str);
     ssize_t old_size = strlen(old_str);
-    if (old_size > str_size)
-        return NULL;
-    if (new_str == NULL)
-        new_str = "";
+    if (old_size > str_size) return NULL;
+    if (new_str == NULL) new_str = "";
     ssize_t new_size = strlen(new_str);
-    char *ret = malloc(str_size - old_size + new_size + 1);
+    char *ret = MemAlloc(str_size - old_size + new_size + 1);
 
     uint32_t index;
     for (index = 0; index < str_size; index++) {
@@ -110,7 +108,7 @@ char *ReplaceOnce(char *str, const char *old_str, const char *new_str) {
         }
         *(ret + index) = *(str + index);
     }
-    free(ret);
+    MemFree(ret);
     return NULL;
 }
 
@@ -127,7 +125,7 @@ char *ReplaceAll(char *str, char *old_str, char *new_str) {
     ssize_t new_size = strlen(new_str);
     
     ssize_t size = str_size + 1;
-    char* ret = malloc(size);
+    char* ret = MemAlloc(size);
     uint32_t i, j;
     for (i = 0, j = 0; i < str_size; i++, j++) {
         if (strncmp(str + i, old_str, old_size) == 0) {
