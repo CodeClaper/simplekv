@@ -9,6 +9,10 @@
 #include "mm.h"
 #include "timer.h"
 
+static const char* SLOG_LEVEL_NAME_LIST[] = {
+    "INFO", "DEBUG", "SUCCS", "WARN", "ERROR", "PANIC"
+};
+
 /* Flush log message to disk. */
 static void flushlog(char* msg) {
     char log_path[BUFF_SIZE];
