@@ -13,16 +13,16 @@ extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 extern int yyparse(Command *cmd);
 
 
-/* Parse sql and generate statement list. */
-Command *parse(char *sql) {
-    if (sql == NULL) return NULL;
+/* Parse input and generate command. */
+Command *parse(char *input) {
+    if (input == NULL) return NULL;
 
-    Trim(sql); /* Remove space characters, includes '\f', '\n', '\r', '\t', '\v'*/
-    slog(INFO, "Execute sql: %s", sql);
+    Trim(input); /* Remove space characters, includes '\f', '\n', '\r', '\t', '\v'*/
+    slog(INFO, "Raw input: %s", input);
 
-    size_t size = strlen(sql) + 1;
+    size_t size = strlen(input) + 1;
     char buff[size + 1];
-    sprintf(buff, "%s%c", sql, '\n');
+    sprintf(buff, "%s%c", input, '\n');
     buff[size] = '\0';
 
     /* Scan. */

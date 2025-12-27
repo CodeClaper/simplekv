@@ -1,3 +1,3 @@
 #include "command.h"
 
-Command parse(char *input);
+Command *parse(char *input);

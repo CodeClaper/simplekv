@@ -55,16 +55,21 @@ command:
     ping
         {
             cmd->type = PING;
+            cmd->proc = pingCommand;
             $$ = cmd;
         }
     | get_command 
         {
             cmd->type = GET;
+            cmd->proc = getCommand;
+            cmd->pridata = $1;
             $$ = cmd;
         }
     | set_command
         {
             cmd->type = SET;
+            cmd->proc = setCommand;
+            cmd->pridata = $1;
             $$ = cmd;
         }
     | setx_command

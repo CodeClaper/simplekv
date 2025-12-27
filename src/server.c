@@ -10,6 +10,7 @@
 #include "err.h"
 #include "mm.h"
 #include "asciilog.h"
+#include "command.h"
 #include "slog.h"
 
 SimpleKVServer server;
@@ -33,8 +34,9 @@ static void ClientReadProc(struct EventLoop *el, int fd, int mask, void *privdat
         DeleteFileEvent(el,  fd, mask);
         return;
     }
-    
-    slog(INFO, "Client: %s", buf);
+        
+    /* Do command. */
+    doCommand(fd, buf);
 }
 
 /* Server socket accept process.*/

@@ -625,8 +625,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    55,    55,    60,    65,    70,    75,    82,    90,    99,
-     109,   117,   118
+       0,    55,    55,    61,    68,    75,    80,    87,    95,   104,
+     114,   122,   123
 };
 #endif
 
@@ -1532,70 +1532,75 @@ yyreduce:
 #line 56 "input.y"
         {
             cmd->type = PING;
+            cmd->proc = pingCommand;
             (yyval.command) = cmd;
         }
-#line 1538 "y.tab.c"
+#line 1539 "y.tab.c"
     break;
 
   case 3: /* command: get_command  */
-#line 61 "input.y"
+#line 62 "input.y"
         {
             cmd->type = GET;
+            cmd->proc = getCommand;
+            cmd->pridata = (yyvsp[0].getCommand);
             (yyval.command) = cmd;
         }
-#line 1547 "y.tab.c"
+#line 1550 "y.tab.c"
     break;
 
   case 4: /* command: set_command  */
-#line 66 "input.y"
+#line 69 "input.y"
         {
             cmd->type = SET;
+            cmd->proc = setCommand;
+            cmd->pridata = (yyvsp[0].setCommand);
             (yyval.command) = cmd;
         }
-#line 1556 "y.tab.c"
+#line 1561 "y.tab.c"
     break;
 
   case 5: /* command: setx_command  */
-#line 71 "input.y"
+#line 76 "input.y"
         {
             cmd->type = SETX;
             (yyval.command) = cmd;
         }
-#line 1565 "y.tab.c"
+#line 1570 "y.tab.c"
     break;
 
   case 6: /* command: del_command  */
-#line 76 "input.y"
+#line 81 "input.y"
         {
             cmd->type = DEL;
             (yyval.command) = cmd;
         }
-#line 1574 "y.tab.c"
+#line 1579 "y.tab.c"
     break;
 
   case 7: /* get_command: get IDENTIFIER END  */
-#line 83 "input.y"
+#line 88 "input.y"
         {
             GetCommand *get_cmd = instance(GetCommand);
             get_cmd->key = (yyvsp[-1].strVal);
             (yyval.getCommand) = get_cmd;
         }
-#line 1584 "y.tab.c"
+#line 1589 "y.tab.c"
     break;
 
   case 8: /* set_command: set IDENTIFIER IDENTIFIER END  */
-#line 91 "input.y"
+#line 96 "input.y"
         {
             SetCommand *set_cmd = instance(SetCommand);
             set_cmd->key = (yyvsp[-2].strVal);
             set_cmd->value = (yyvsp[-1].strVal);
             (yyval.setCommand) = set_cmd;
         }
-#line 1595 "y.tab.c"
+#line 1600 "y.tab.c"
     break;
 
   case 9: /* setx_command: set IDENTIFIER IDENTIFIER INTVALUE END  */
-#line 100 "input.y"
+#line 105 "input.y"
         {
             SetxCommand *setx_cmd = instance(SetxCommand);
             setx_cmd->key = (yyvsp[-3].strVal);
@@ -1603,21 +1608,21 @@ yyreduce:
             setx_cmd->timeout = (yyvsp[-1].intVal);
             (yyval.setxCommand) = setx_cmd;
         }
-#line 1607 "y.tab.c"
+#line 1612 "y.tab.c"
     break;
 
   case 10: /* del_command: del IDENTIFIER END  */
-#line 110 "input.y"
+#line 115 "input.y"
         {
             DelCommand *del_cmd = instance(DelCommand);
             del_cmd->key = (yyvsp[-1].strVal);
             (yyval.delCommand) = del_cmd;
         }
-#line 1617 "y.tab.c"
+#line 1622 "y.tab.c"
     break;
 
 
-#line 1621 "y.tab.c"
+#line 1626 "y.tab.c"
 
       default: break;
     }
@@ -1846,7 +1851,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 120 "input.y"
+#line 125 "input.y"
 
 
 int yyerror(Command *cmd, const char *s) {

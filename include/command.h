@@ -20,7 +20,7 @@ typedef enum CommandType {
 typedef struct Command {
     CommandType type;
     commandProc *proc;
-    void *pridate;
+    void *pridata;
 } Command;
 
 /* Get Command structure. */
@@ -47,9 +47,9 @@ typedef struct DelCommand {
     char *key;
 } DelCommand;
 
-void pingCommand(int c, void *pridate);
-void getCommand(int c, void *pridate);
-void setCommand(int c, void *pridate);
+void pingCommand(int c, void *pridata);
+void getCommand(int c, void *pridata);
+void setCommand(int c, void *pridata);
 void doCommand(int c, char *input);
 
 #endif // !DEBUG
