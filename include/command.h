@@ -50,5 +50,6 @@ typedef struct DelCommand {
 void pingCommand(int c, void *pridate);
 void getCommand(int c, void *pridate);
 void setCommand(int c, void *pridate);
+void doCommand(int c, char *input);
 
 #endif // !DEBUG

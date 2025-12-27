@@ -16,7 +16,8 @@ int CreateFileEvent(EventLoop *el, int fd, int mask, elFileProc *proc, void *pri
     fe->privdata = privdata;
     
     /* Append to fileEventHead. */
-    if (el->fileEventHead) fe->next = el->fileEventHead;
+    if (el->fileEventHead) 
+        fe->next = el->fileEventHead;
     el->fileEventHead = fe;
 
     return ELOOP_OK;
