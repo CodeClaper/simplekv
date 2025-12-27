@@ -12,6 +12,8 @@
 #include <time.h>
 #include <float.h>
 #include <regex.h>
+#include <errno.h>
+#include <math.h>
 #include "utils.h"
 #include "server.h"
 #include "mm.h"
@@ -237,5 +239,46 @@ bool StrEqOrNull(char *str1, char *str2) {
         return true;
     else
         return false;
+}
+
+/* Convert String value to long value.*/
+ST_FLAG StrToLong(char *val, long *ret) {
+    char buf[BUFF_SIZE];
+    char *endptr;
+
+    int64_t converted = strtol(val, &endptr, 10);
+    if (*endptr != '\0')
+        return ST_INVALID;
+
+    /* Check if overflow max long value*/
+    memset(buf, 0, BUFF_SIZE);
+    sprintf(buf, "%ld", converted);
+    if (!StrEq(val, buf))
+        return ST_OVERFLOW;
+
+    *ret = converted;
+
+    return ST_SUCCESS;
+}
+
+/* Convert String value to float value.*/
+ST_FLAG StrToFloat(char *val, float *ret) {
+    char *endptr;
+    errno = 0;
+    double converted = strtod(val, &endptr);
+
+    if (*endptr != '\0')
+        return ST_INVALID;
+    else if (errno == ERANGE)
+        return ST_OUTRANGE;
+    else if (isinf(converted))
+        return ST_OVERFLOW;
+
+    if (converted > FLT_MAX || converted < FLT_MIN) 
+        return ST_OVERFLOW;
+
+    *ret = (float) converted;
+
+    return ST_SUCCESS;
 }
 
