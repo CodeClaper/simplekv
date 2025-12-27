@@ -11,6 +11,7 @@ typedef enum LLevel {
 } LLevel;
 
 
+LLevel NameDefineLLevel(char *level);
 void slog(LLevel level, const char *format, ...);
 void slogRaw(const char *format, ...);
 

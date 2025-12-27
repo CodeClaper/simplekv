@@ -13,6 +13,24 @@ static const char* SLOG_LEVEL_NAME_LIST[] = {
     "INFO", "DEBUG", "SUCCS", "WARN", "ERROR", "PANIC"
 };
 
+/* Define LLevel via name.  */
+LLevel NameDefineLLevel(char *level) {
+    if (strcasecmp(level, "INFO") == 0)
+        return INFO;
+    else if (strcasecmp(level, "DEBUG") == 0)
+        return DBUG;
+    else if (strcasecmp(level, "SUCCS") == 0)
+        return SUCCS;
+    else if (strcasecmp(level, "WARN") == 0)
+        return WARN;
+    else if (strcasecmp(level, "ERROR") == 0)
+        return ERROR;
+    else if (strcasecmp(level, "PANIC") == 0)
+        return PANIC;
+    else
+        return INFO;
+}
+
 /* Flush log message to disk. */
 static void flushlog(char* msg) {
     char log_path[BUFF_SIZE];

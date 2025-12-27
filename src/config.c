@@ -4,6 +4,7 @@
 #include <string.h>
 #include "config.h"
 #include "server.h"
+#include "slog.h"
 #include "utils.h"
 
 #define DEFAULT_CONF_FILE "config/simplekv.conf"
@@ -58,4 +59,6 @@ static char *ReadConfig(const char *title, const char *key) {
 void LoadConfigFile() {
     server.host = ReadConfig("server", "host");
     server.port = atoi(ReadConfig("server", "port"));
+    server.llevel = NameDefineLLevel(ReadConfig("log", "level"));
+    server.logDir = ReadConfig("log", "log_dir");
 }
