@@ -52,7 +52,7 @@ extern char *current_token;
 
 %%
 command: 
-    ping
+    ping_command
         {
             cmd->type = PING;
             cmd->proc = pingCommand;
@@ -82,6 +82,9 @@ command:
             cmd->type = DEL;
             $$ = cmd;
         }
+    ;
+ping_command:
+    ping END
     ;
 get_command:
     get IDENTIFIER END
@@ -119,8 +122,7 @@ del_command:
         }
     ;
 END:        
-    ';'
-    | ';' NL
+    NL
     ;
 %%
 

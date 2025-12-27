@@ -228,9 +228,9 @@ enum yysymbol_kind_t
   YYSYMBOL_IDENTIFIER = 17,                /* IDENTIFIER  */
   YYSYMBOL_INTVALUE = 18,                  /* INTVALUE  */
   YYSYMBOL_FLOATVALUE = 19,                /* FLOATVALUE  */
-  YYSYMBOL_20_ = 20,                       /* ';'  */
-  YYSYMBOL_YYACCEPT = 21,                  /* $accept  */
-  YYSYMBOL_command = 22,                   /* command  */
+  YYSYMBOL_YYACCEPT = 20,                  /* $accept  */
+  YYSYMBOL_command = 21,                   /* command  */
+  YYSYMBOL_ping_command = 22,              /* ping_command  */
   YYSYMBOL_get_command = 23,               /* get_command  */
   YYSYMBOL_set_command = 24,               /* set_command  */
   YYSYMBOL_setx_command = 25,              /* setx_command  */
@@ -564,18 +564,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  13
+#define YYFINAL  16
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   15
+#define YYLAST   16
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  21
+#define YYNTOKENS  20
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  7
+#define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  12
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  22
+#define YYNSTATES  23
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   266
@@ -597,7 +597,7 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        7,     8,     5,     3,     2,     4,     2,     6,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    20,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -625,8 +625,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    55,    55,    61,    68,    75,    80,    87,    95,   104,
-     114,   122,   123
+       0,    55,    55,    61,    68,    75,    80,    87,    90,    98,
+     107,   117,   125
 };
 #endif
 
@@ -645,14 +645,15 @@ yysymbol_name (yysymbol_kind_t yysymbol)
   {
   "end of file", "error", "invalid token", "'+'", "'-'", "'*'", "'/'",
   "'('", "')'", "'['", "']'", "NL", "ping", "get", "set", "setx", "del",
-  "IDENTIFIER", "INTVALUE", "FLOATVALUE", "';'", "$accept", "command",
-  "get_command", "set_command", "setx_command", "del_command", "END", YY_NULLPTR
+  "IDENTIFIER", "INTVALUE", "FLOATVALUE", "$accept", "command",
+  "ping_command", "get_command", "set_command", "setx_command",
+  "del_command", "END", YY_NULLPTR
   };
   return yy_sname[yysymbol];
 }
 #endif
 
-#define YYPACT_NINF (-13)
+#define YYPACT_NINF (-14)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -666,9 +667,9 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -11,   -13,    -8,    -6,    -5,     6,   -13,   -13,   -13,   -13,
-      -7,    -3,    -7,   -13,     4,   -13,   -10,   -13,   -13,    -7,
-     -13,   -13
+      -3,    -8,   -11,    -5,    -2,     4,   -14,   -14,   -14,   -14,
+     -14,   -14,   -14,    -8,    -1,    -8,   -14,   -14,   -10,   -14,
+      -8,   -14,   -14
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -676,21 +677,21 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     2,     0,     0,     0,     0,     3,     4,     5,     6,
-       0,     0,     0,     1,    11,     7,     0,    10,    12,     0,
-       8,     9
+       0,     0,     0,     0,     0,     0,     2,     3,     4,     5,
+       6,    12,     7,     0,     0,     0,     1,     8,     0,    11,
+       0,     9,    10
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -13,   -13,   -13,   -13,   -13,   -13,   -12
+     -14,   -14,   -14,   -14,   -14,   -14,   -14,   -13
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     5,     6,     7,     8,     9,    15
+       0,     5,     6,     7,     8,     9,    10,    12
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -698,37 +699,37 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      17,     1,     2,     3,    20,     4,    13,    21,    19,    10,
-      14,    11,    12,    14,    16,    18
+      17,    11,    19,    11,    16,    21,    13,    22,    20,     1,
+       2,     3,    14,     4,     0,    15,    18
 };
 
 static const yytype_int8 yycheck[] =
 {
-      12,    12,    13,    14,    16,    16,     0,    19,    18,    17,
-      20,    17,    17,    20,    17,    11
+      13,    11,    15,    11,     0,    18,    17,    20,    18,    12,
+      13,    14,    17,    16,    -1,    17,    17
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    12,    13,    14,    16,    22,    23,    24,    25,    26,
-      17,    17,    17,     0,    20,    27,    17,    27,    11,    18,
-      27,    27
+       0,    12,    13,    14,    16,    21,    22,    23,    24,    25,
+      26,    11,    27,    17,    17,    17,     0,    27,    17,    27,
+      18,    27,    27
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    21,    22,    22,    22,    22,    22,    23,    24,    25,
-      26,    27,    27
+       0,    20,    21,    21,    21,    21,    21,    22,    23,    24,
+      25,    26,    27
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     1,     1,     1,     3,     4,     5,
-       3,     1,     2
+       0,     2,     1,     1,     1,     1,     1,     2,     3,     4,
+       5,     3,     1
 };
 
 
@@ -1528,14 +1529,14 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* command: ping  */
+  case 2: /* command: ping_command  */
 #line 56 "input.y"
         {
             cmd->type = PING;
             cmd->proc = pingCommand;
             (yyval.command) = cmd;
         }
-#line 1539 "y.tab.c"
+#line 1540 "y.tab.c"
     break;
 
   case 3: /* command: get_command  */
@@ -1546,7 +1547,7 @@ yyreduce:
             cmd->pridata = (yyvsp[0].getCommand);
             (yyval.command) = cmd;
         }
-#line 1550 "y.tab.c"
+#line 1551 "y.tab.c"
     break;
 
   case 4: /* command: set_command  */
@@ -1557,7 +1558,7 @@ yyreduce:
             cmd->pridata = (yyvsp[0].setCommand);
             (yyval.command) = cmd;
         }
-#line 1561 "y.tab.c"
+#line 1562 "y.tab.c"
     break;
 
   case 5: /* command: setx_command  */
@@ -1566,7 +1567,7 @@ yyreduce:
             cmd->type = SETX;
             (yyval.command) = cmd;
         }
-#line 1570 "y.tab.c"
+#line 1571 "y.tab.c"
     break;
 
   case 6: /* command: del_command  */
@@ -1575,32 +1576,32 @@ yyreduce:
             cmd->type = DEL;
             (yyval.command) = cmd;
         }
-#line 1579 "y.tab.c"
+#line 1580 "y.tab.c"
     break;
 
-  case 7: /* get_command: get IDENTIFIER END  */
-#line 88 "input.y"
+  case 8: /* get_command: get IDENTIFIER END  */
+#line 91 "input.y"
         {
             GetCommand *get_cmd = instance(GetCommand);
             get_cmd->key = (yyvsp[-1].strVal);
             (yyval.getCommand) = get_cmd;
         }
-#line 1589 "y.tab.c"
+#line 1590 "y.tab.c"
     break;
 
-  case 8: /* set_command: set IDENTIFIER IDENTIFIER END  */
-#line 96 "input.y"
+  case 9: /* set_command: set IDENTIFIER IDENTIFIER END  */
+#line 99 "input.y"
         {
             SetCommand *set_cmd = instance(SetCommand);
             set_cmd->key = (yyvsp[-2].strVal);
             set_cmd->value = (yyvsp[-1].strVal);
             (yyval.setCommand) = set_cmd;
         }
-#line 1600 "y.tab.c"
+#line 1601 "y.tab.c"
     break;
 
-  case 9: /* setx_command: set IDENTIFIER IDENTIFIER INTVALUE END  */
-#line 105 "input.y"
+  case 10: /* setx_command: set IDENTIFIER IDENTIFIER INTVALUE END  */
+#line 108 "input.y"
         {
             SetxCommand *setx_cmd = instance(SetxCommand);
             setx_cmd->key = (yyvsp[-3].strVal);
@@ -1608,21 +1609,21 @@ yyreduce:
             setx_cmd->timeout = (yyvsp[-1].intVal);
             (yyval.setxCommand) = setx_cmd;
         }
-#line 1612 "y.tab.c"
+#line 1613 "y.tab.c"
     break;
 
-  case 10: /* del_command: del IDENTIFIER END  */
-#line 115 "input.y"
+  case 11: /* del_command: del IDENTIFIER END  */
+#line 118 "input.y"
         {
             DelCommand *del_cmd = instance(DelCommand);
             del_cmd->key = (yyvsp[-1].strVal);
             (yyval.delCommand) = del_cmd;
         }
-#line 1622 "y.tab.c"
+#line 1623 "y.tab.c"
     break;
 
 
-#line 1626 "y.tab.c"
+#line 1627 "y.tab.c"
 
       default: break;
     }
@@ -1851,7 +1852,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 125 "input.y"
+#line 127 "input.y"
 
 
 int yyerror(Command *cmd, const char *s) {

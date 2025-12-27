@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "command.h"
 #include "parse.h"
 #include "slog.h"
@@ -20,5 +21,6 @@ void setCommand(int c, void *pridate) {
 /* Do command. */
 void doCommand(int c, char *input) {
     Command *cmd = parse(input);
+    if (cmd == NULL) return;
     cmd->proc(c, cmd->pridata);
 }
