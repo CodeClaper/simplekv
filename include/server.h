@@ -30,5 +30,5 @@ extern SimpleKVServer server;
 extern ServerShare  shared;
 
 
-void ClientSendProc(struct EventLoop *el, int fd, int mask, void *privdata);
+void AddReply(int fd, char *msg);
 #endif

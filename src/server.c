@@ -64,6 +64,12 @@ static void ClientReadProc(struct EventLoop *el, int fd, int mask, void *privdat
     doCommand(fd, buf);
 }
 
+/* Add reply. */
+void AddReply(int fd, char *msg) {
+    if (CreateFileEvent(server.el, fd, ELOOP_WRITABLE, ClientSendProc, msg) == ELOOP_ERR)
+        ThrowErr("Create file event fail.");
+}
+
 /* Server socket accept process.*/
 static void ServerAcceptProc(struct EventLoop *el, int fd, int mask, void *privdata) {
     int cfd, clientPort;
