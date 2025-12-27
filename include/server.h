@@ -19,10 +19,16 @@ typedef struct SimpleKVServer {
     char *logDir;
 } SimpleKVServer;
 
+typedef struct ServerShare {
+    char *ok, *err, *pong;
+} ServerShare;
+
 /****************************************
  *              Declare.
  ***************************************/
 extern SimpleKVServer server;
+extern ServerShare  shared;
 
 
+void ClientSendProc(struct EventLoop *el, int fd, int mask, void *privdata);
 #endif

@@ -1,11 +1,12 @@
 #include <stdlib.h>
 #include "command.h"
+#include "eloop.h"
 #include "parse.h"
-#include "slog.h"
+#include "server.h"
 
 /* Ping. */
 void pingCommand(int c, void *pridate) {
-    slog(DBUG, "Receive PING.\n");
+    if (CreateFileEvent(server.el, c, ELOOP_WRITABLE, ClientSendProc, shared.pong) == ELOOP_ERR) return;
 }
 
 /* Get */

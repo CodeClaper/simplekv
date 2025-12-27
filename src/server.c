@@ -14,6 +14,30 @@
 #include "slog.h"
 
 SimpleKVServer server;
+ServerShare shared;
+
+/* Send to client process. */
+void ClientSendProc(struct EventLoop *el, int fd, int mask, void *privdata) {
+    int nsend = 0, sentlen = 0, len;
+
+    UNUSED(el);
+    UNUSED(mask);
+
+    len = strlen(privdata);
+    while (len > sentlen) {
+        nsend = write(fd, ((char *)privdata) + sentlen, len - sentlen);
+        if (nsend <= 0) break;
+        sentlen += nsend;
+        if (sentlen == len) break;;
+    }
+
+    if (nsend == -1) {
+        slog(ERROR, "Error writting to client: %s", strerror(errno));
+        return;
+    }
+
+    DeleteFileEvent(el, fd, ELOOP_WRITABLE);
+}
 
 /* Read from client process. */
 static void ClientReadProc(struct EventLoop *el, int fd, int mask, void *privdata) {
@@ -69,6 +93,13 @@ static void InitServer(void) {
     server.llevel = INFO;
 }
 
+/* Init the shared. */
+static void InitShared() {
+    shared.ok = strdup("OK\r\n");
+    shared.err = strdup("ERR\r\n");
+    shared.pong = strdup("PONG\r\n");
+}
+
 
 /* Config the server. */
 static void ConfigServer(void) {
@@ -95,6 +126,7 @@ static void SimpleKVAsciiArt(void) {
 /* The main entry of server.  */
 int main(int argc, char *argv[]) {
     InitServer();
+    InitShared();
     ConfigServer();
     SetupServer();
     SimpleKVAsciiArt();
