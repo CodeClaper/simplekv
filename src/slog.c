@@ -1,5 +1,3 @@
-#include <asm-generic/errno-base.h>
-#include <sys/stat.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -33,16 +31,6 @@ LLevel NameDefineLLevel(char *level) {
         return INFO;
 }
 
-/* Create log dir. */
-static void createLogDir() {
-    if (mkdir(server.logDir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1) {
-        if (errno == EEXIST) return;
-        fprintf(stderr, "Error createing log directory: %s", strerror(errno));
-        exit(1);
-    }  
-}
-
-
 /* Flush log message to disk. */
 static void flushlog(char* msg) {
     char log_path[BUFF_SIZE];
@@ -51,7 +39,6 @@ static void flushlog(char* msg) {
 
     sys_date = GetCurrentTimestampFormat("%Y-%m-%d");
     sprintf(log_path, "%s%s.%s", server.logDir, sys_date, "log");
-    createLogDir();
     file = fopen(log_path, "a");
     if (file == NULL) {
         fprintf(stderr, "Try to open log file '%s', error info: %s. \n", 

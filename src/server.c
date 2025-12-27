@@ -1,5 +1,6 @@
-#include <errno.h>
 #include <stdio.h>
+#include <sys/stat.h>
+#include <errno.h>
 #include <string.h>
 #include <unistd.h>
 #include "server.h"
@@ -107,14 +108,22 @@ static void ConfigServer(void) {
     LoadConfigFile();
 }
 
+/* Create some directorys.*/
+static void CreateDirs() {
+    if (mkdir(server.logDir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) == -1) {
+        if (errno == EEXIST) return;
+        ThrowErr("Error createing log directorys");
+    }  
+}
+
 /* Setup the server. */
 static void SetupServer(void) {
     int fd, retval;
 
     fd = CreateTcpServer(server.host, server.port);
-    if (fd == ANET_ERR) ThrowErr("Create tcp socket server fail.");
+    if (fd == ANET_ERR) ThrowErr("Create tcp socket server fail");
     retval = CreateFileEvent(server.el, fd, ELOOP_READABLE, ServerAcceptProc,  NULL);
-    if (retval == ANET_ERR) ThrowErr("Create file event fail.");
+    if (retval == ANET_ERR) ThrowErr("Create file event fail");
     server.serverfd = fd;
 }
 
@@ -128,6 +137,7 @@ int main(int argc, char *argv[]) {
     InitServer();
     InitShared();
     ConfigServer();
+    CreateDirs();
     SetupServer();
     SimpleKVAsciiArt();
     EloopMain(server.el);
