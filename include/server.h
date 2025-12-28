@@ -17,6 +17,7 @@ typedef struct SimpleKVServer {
     EventLoop *el;
     LLevel llevel;
     char *logDir;
+    char *dataDir;
 } SimpleKVServer;
 
 typedef struct ServerShare {

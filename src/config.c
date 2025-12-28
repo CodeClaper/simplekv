@@ -61,4 +61,5 @@ void LoadConfigFile() {
     server.port = atoi(ReadConfig("server", "port"));
     server.llevel = NameDefineLLevel(ReadConfig("log", "level"));
     server.logDir = ReadConfig("log", "log_dir");
+    server.dataDir = ReadConfig("rdb", "data_dir");
 }
