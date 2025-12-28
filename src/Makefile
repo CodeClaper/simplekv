@@ -10,12 +10,14 @@ LDADDCFLAGS = -lpthread -lm -lz
 simplekv: $(OBJS)
 	$(CC) $(CFLAGS)  $(OBJS) -o $@ $(LDADDCFLAGS)
 
-%.o: %.c y.tab.c $(headers)
+%.o: %.c lex.yy.c y.tab.c $(headers)
 	$(CC) -c $(CFLAGS) $< -o $@
 
-y.tab.c: input.l input.y
-	flex input.l
-	bison -d -y input.y
+lex.yy.c: input.l
+	flex input.l -o $@
+
+y.tab.c: input.y
+	bison -d -y input.y -o $@
 
 .PHONY: clean all
 

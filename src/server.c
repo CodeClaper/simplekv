@@ -1,3 +1,4 @@
+#include <pthread.h>
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
@@ -80,7 +81,7 @@ static void ServerAcceptProc(struct EventLoop *el, int fd, int mask, void *privd
 
     cfd = ServerAccept(fd, clientIp, &clientPort);
     if (cfd == ANET_ERR) ThrowErr("Accept fail."); 
-    slog(INFO, "Accepted %s:%d.", clientIp, clientPort);
+    slog(INFO, "Accepted %s:%d attached thread id %ld.", clientIp, clientPort, pthread_self());
     if (CreateFileEvent(el, cfd, ELOOP_READABLE, ClientReadProc, NULL) == ELOOP_ERR) 
         ThrowErr("Create file event fail.");
 }
