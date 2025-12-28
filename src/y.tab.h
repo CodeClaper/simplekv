@@ -62,7 +62,8 @@ extern int yydebug;
     del = 263,                     /* del  */
     IDENTIFIER = 264,              /* IDENTIFIER  */
     INTVALUE = 265,                /* INTVALUE  */
-    FLOATVALUE = 266               /* FLOATVALUE  */
+    FLOATVALUE = 266,              /* FLOATVALUE  */
+    STRINGVALUE = 267              /* STRINGVALUE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -80,25 +81,27 @@ extern int yydebug;
 #define IDENTIFIER 264
 #define INTVALUE 265
 #define FLOATVALUE 266
+#define STRINGVALUE 267
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 20 "input.y"
+#line 21 "input.y"
 
    char                         *strVal;
    int64_t                      intVal;
    float                        floatVal;
    bool                         boolVal;
    char                         *keyword;
+   Node                         *node;
    Command                      *command;
    GetCommand                   *getCommand;
    SetCommand                   *setCommand;
    SetxCommand                  *setxCommand;
    DelCommand                   *delCommand;
 
-#line 102 "y.tab.h"
+#line 105 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

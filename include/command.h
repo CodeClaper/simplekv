@@ -1,6 +1,8 @@
 #ifndef __COMMAND_H__
 #define __COMMAND_H__
 
+#include "dict.h"
+
 typedef void commandProc(int c, void *pridate);
 
 /* All support commands. */
@@ -31,14 +33,14 @@ typedef struct GetCommand {
 /* Set Command structure. */
 typedef struct SetCommand {
     char *key;
-    char *value;
+    Node *value;
 } SetCommand;
 
 
 /* Setx Command structure. */
 typedef struct SetxCommand {
     char *key;
-    char *value;
+    Node *value;
     long timeout;
 } SetxCommand;
 

@@ -69,6 +69,20 @@ SETX                    return setx;
                             }
                             return FLOATVALUE; 
                         }
+'[^']*'	                { 
+                            if (strcmp(yytext, "''") == 0) 
+                            { 
+                                yylval.strVal = strdup(" ");
+                                current_token = strdup(yytext);
+                            } 
+                            else 
+                            {
+                                char *str = strtok(yytext, "\'");  
+                                yylval.strVal = strdup(str);
+                                current_token = strdup(yytext);
+                            } 
+                            return STRINGVALUE;
+                        } 
 '[^']*$	                { yyerror(NULL, "Unterminated string");  return YYerror;}
 \n                      { lineno++; return NL;}
 [ \t]                   /* igonore space */

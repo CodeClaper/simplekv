@@ -7,6 +7,7 @@
 #include "command.h"
 #include "slog.h"
 #include "mm.h"
+#include "dict.h"
 #include "y.tab.h"
 
 int yywrap() {
@@ -23,6 +24,7 @@ extern char *current_token;
    float                        floatVal;
    bool                         boolVal;
    char                         *keyword;
+   Node                         *node;
    Command                      *command;
    GetCommand                   *getCommand;
    SetCommand                   *setCommand;
@@ -40,6 +42,10 @@ extern char *current_token;
 %token <strVal> IDENTIFIER;
 %token <intVal> INTVALUE;
 %token <floatVal> FLOATVALUE;
+%token <strVal> STRINGVALUE;
+%type <strVal> KEY;
+%type <node> VALUE;
+%type <intVal> TIMEOUT;
 %type <command> command;
 %type <getCommand> get_command;
 %type <setCommand> set_command;
@@ -48,7 +54,7 @@ extern char *current_token;
 %parse-param {Command *cmd}
 %lex-param {Command *cmd}
 %locations
-%define parse.error detailed
+//%define parse.error detailed
 
 %%
 command: 
@@ -87,7 +93,7 @@ ping_command:
     ping END
     ;
 get_command:
-    get IDENTIFIER END
+    get KEY END
         {
             GetCommand *get_cmd = instance(GetCommand);
             get_cmd->key = $2;
@@ -95,7 +101,7 @@ get_command:
         }
     ;
 set_command:
-    set IDENTIFIER IDENTIFIER END
+    set KEY VALUE END
         {
             SetCommand *set_cmd = instance(SetCommand);
             set_cmd->key = $2;
@@ -104,7 +110,7 @@ set_command:
         }
     ;
 setx_command:
-    set IDENTIFIER IDENTIFIER INTVALUE END
+    setx KEY VALUE TIMEOUT END
         {
             SetxCommand *setx_cmd = instance(SetxCommand);
             setx_cmd->key = $2;
@@ -114,11 +120,46 @@ setx_command:
         }
     ;
 del_command:
-    del IDENTIFIER END
+    del KEY END
         {
             DelCommand *del_cmd = instance(DelCommand);
             del_cmd->key = $2;
             $$ = del_cmd;
+        }
+    ;
+KEY:
+   IDENTIFIER
+        {
+            $$ = $1;
+        }
+   ;
+VALUE:
+    INTVALUE 
+        {
+            Node *node = instance(Node);
+            node->type = NODE_INT;
+            node->value.intVal = $1;
+            $$ = node;
+        }
+    | FLOATVALUE
+        {
+            Node *node = instance(Node);
+            node->type = NODE_FLOAT;
+            node->value.floatVal = $1;
+            $$ = node;
+        }
+    | STRINGVALUE
+        {
+            Node *node = instance(Node);
+            node->type = NODE_STRING;
+            node->value.strVal = $1;
+            $$ = node;
+        }
+    ;
+TIMEOUT:
+    INTVALUE
+        {
+            $$ = $1;
         }
     ;
 END:        
