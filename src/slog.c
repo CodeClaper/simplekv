@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+#include <pthread.h>
 #include "slog.h"
 #include "server.h"
 #include "mm.h"
@@ -77,8 +78,8 @@ void slog(LLevel level, const char *format, ...) {
     if (level >= server.llevel) {
         char *sys_time = GetCurrentDatetime(MICROSECOND);
         char buff[len + 100];
-        sprintf(buff, "[%s][%d][%s]:\t%s\n", 
-                sys_time, getpid(), 
+        sprintf(buff, "[%s][%ld][%s]:\t%s\n", 
+                sys_time, pthread_self(), 
                 SLOG_LEVEL_NAME_LIST[level], message);
         fprintf(stdout, "%s", buff);
         flushlog(buff);
