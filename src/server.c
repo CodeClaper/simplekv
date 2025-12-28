@@ -74,7 +74,7 @@ static void ServerAcceptProc(struct EventLoop *el, int fd, int mask, void *privd
     int cfd, clientPort;
     char clientIp[128];
 
-    UNUSED(el)
+    UNUSED(el);
     UNUSED(mask);
     UNUSED(privdata);
 
